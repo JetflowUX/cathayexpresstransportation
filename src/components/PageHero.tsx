@@ -16,7 +16,7 @@ export function PageHero({
   children
 }: PageHeroProps) {
   return (
-    <section className="overflow-hidden bg-slate-950 pt-[76px]">
+    <section className="overflow-hidden bg-brand-navy pt-[76px]">
       <div className="mx-auto grid max-w-7xl lg:grid-cols-2">
         <motion.div
           initial={{
@@ -32,7 +32,7 @@ export function PageHero({
           }}
           className="px-5 py-16 sm:px-8 lg:px-8 lg:py-24">
           
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-teal-300">
+          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-sky-300">
             {eyebrow}
           </p>
           <h1 className="mt-5 max-w-xl text-3xl font-extrabold tracking-[-0.055em] text-white sm:text-4xl lg:text-5xl lg:leading-[1.1]">

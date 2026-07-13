@@ -23,7 +23,7 @@ body {
 }
 ::selection {
   color: #ffffff;
-  background: #0f766e;
+  background: #117aca;
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -36,3 +36,21 @@ body {
 @media (hover: hover) and (pointer: fine) {
   a, button { -webkit-tap-highlight-color: transparent; }
 }
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+.animate-marquee-slow {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+

@@ -11,35 +11,43 @@ import { Link } from 'react-router-dom';
 import { PageHero } from '../components/PageHero';
 import { Reveal, SectionHeading } from '../components/Ui';
 const services = [
-[
-'Medical transportation',
-'Planned rides to routine care, treatment, discharge, rehabilitation, and follow-up appointments.',
-AmbulanceIcon],
-
-[
-'Wheelchair transportation',
-'Accessible vehicles and trained teams for riders who use mobility devices or need extra boarding support.',
-BoxIcon],
-
-[
-'Public transit',
-'Flexible community routes connecting people with work, healthcare, shopping, and everyday essentials.',
-BusFrontIcon],
-
-[
-'Airport transportation',
-'Reliable door-to-door travel for flyers who need an easier start or end to their trip.',
-PlaneIcon],
-
-[
-'Corporate transportation',
-'Professional, well-coordinated transportation for employees, guests, and scheduled business needs.',
-CarFrontIcon],
-
-[
-'Special needs transportation',
-'Personalized coordination for riders whose journey needs more time, structure, or support.',
-UsersRoundIcon]];
+  [
+    'Medical transportation',
+    'Planned rides to routine care, chemotherapy, dialysis, hospital discharges, and rehabilitation.',
+    AmbulanceIcon,
+    'medical'
+  ],
+  [
+    'Wheelchair transportation',
+    'ADA-compliant accessibility with power lifts, ramps, and 4-point securement tie-downs.',
+    BoxIcon,
+    'wheelchair'
+  ],
+  [
+    'Public transit',
+    'Flexible community transit route partnerships connecting residents to essential local destinations.',
+    BusFrontIcon,
+    'public-transit'
+  ],
+  [
+    'Airport transportation',
+    'Accessible transfers for seniors and passengers with mobility equipment at JFK, LGA, and Newark.',
+    PlaneIcon,
+    'airport'
+  ],
+  [
+    'Corporate transportation',
+    'Well-coordinated, reliable shuttle and executive options for regional healthcare partnerships.',
+    CarFrontIcon,
+    'corporate'
+  ],
+  [
+    'Special needs transportation',
+    'Special education school bus services with safety securements and trained attendants.',
+    UsersRoundIcon,
+    'school-bus'
+  ]
+];
 
 
 export function Services() {
@@ -47,21 +55,21 @@ export function Services() {
     <>
       <PageHero
         eyebrow="How we help"
-        title="Transportation shaped around real life."
-        description="From a single appointment to an ongoing mobility plan, our services are designed to meet people where they are."
+        title="Transportation shaped around care."
+        description="From regular medical treatments to school commutes and specialized paratransit, our operations are built around safety and punctuality."
         image="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=85" />
       
       <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-8">
         <SectionHeading
           eyebrow="Our services"
-          title="A calmer, more capable way to move."
-          description="Choose the support that fits your day. Our coordinators can help you identify the right service before you book." />
+          title="Clinical mobility with professional support."
+          description="Choose the transportation that meets your requirements. Our dispatch coordinators can help you coordinate standing orders or individual transfers." />
         
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {services.map(([title, copy, Icon], index) =>
+          {services.map(([title, copy, Icon, id], index) =>
           <Reveal delay={index * 0.04} key={title as string}>
-              <article className="flex h-full flex-col rounded-2xl border border-slate-200 p-7 shadow-[0_8px_30px_rgb(15,23,42,0.04)]">
-                <span className="grid h-12 w-12 place-items-center rounded-xl bg-teal-50 text-teal-700">
+              <article id={id as string} className="flex h-full flex-col rounded-2xl border border-slate-200 p-7 shadow-[0_8px_30px_rgb(15,23,42,0.04)] scroll-mt-24 transition duration-200 hover:border-brand-blue/30">
+                <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
                   {createElement(Icon as React.ElementType, {
                   size: 23
                 })}
@@ -69,12 +77,12 @@ export function Services() {
                 <h2 className="mt-6 text-xl font-extrabold tracking-[-.035em] text-slate-950">
                   {title as string}
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-slate-600">
+                <p className="mt-3 text-sm leading-6 text-slate-700">
                   {copy as string}
                 </p>
                 <Link
                 to="/assessment"
-                className="mt-6 text-sm font-bold text-blue-700 hover:text-teal-700">
+                className="mt-6 text-sm font-bold text-blue-700 hover:text-brand-blue">
                 
                   Request this service →
                 </Link>
@@ -88,16 +96,16 @@ export function Services() {
           <div className="grid gap-5 md:grid-cols-3">
             {[
             [
-            'Thoughtful coordination',
-            'Clear confirmations and practical reminders help your day stay on track.'],
+            'Centralized dispatch',
+            'Continuous 24/7 routing and coordinator communication keeps rides running on time.'],
 
             [
-            'Accessible by design',
-            'Support and vehicle needs are considered before your ride is assigned.'],
+            'Accessible & compliant',
+            'Full ADA compliance, including power lifts, wheelchair locks, and stretcher options.'],
 
             [
-            'A consistent team',
-            'Our drivers and coordinators bring calm, professional care to every interaction.']].
+            'Vetted, sensitive team',
+            'All drivers undergo background checks, drug testing, and special-needs sensitivity training.']].
 
             map(([title, copy]) =>
             <div

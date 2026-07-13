@@ -36,7 +36,7 @@ export function About() {
       <PageHero
         eyebrow="Our story"
         title="Care starts long before the appointment."
-        description="Northstar Mobility exists to remove the uncertainty that too often surrounds transportation. We make movement feel more dependable, personal, and human."
+        description="Cathay Express Transportation exists to remove the uncertainty that too often surrounds medical transportation. We make movement feel more dependable, personal, and dignified."
         image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85" />
       
       <section className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:px-8">
@@ -47,17 +47,17 @@ export function About() {
           
         </Reveal>
         <Reveal delay={0.08}>
-          <div className="space-y-5 text-base leading-8 text-slate-600">
+          <div className="space-y-5 text-base leading-8 text-slate-700">
             <p>
-              We started with a simple belief: getting to care should never be a
-              source of stress. Today, our mobility coordinators and drivers
-              support riders, families, organizations, and communities with
-              transportation that feels considered from start to finish.
+              We started with a simple belief: getting to clinical care should never be a
+              source of stress. Today, Cathay Express Transportation coordinates non-emergency
+              ambulatory, wheelchair, and stretcher rides for patients, families, clinics, 
+              nursing homes, and school districts across New York State.
             </p>
             <p>
-              Our role is practical, but the impact is personal. We arrive
-              prepared, communicate clearly, and treat every rider with the
-              patience and respect they deserve.
+              Serving key regions including NYC, Long Island, Rochester, and Poughkeepsie, our central 
+              dispatch operations run 24 hours a day, 7 days a week, ensuring patients, seniors, and 
+              students with special needs reach their destination with professional oversight and complete safety.
             </p>
           </div>
         </Reveal>
@@ -72,7 +72,7 @@ export function About() {
             {values.map(([title, text, Icon], index) =>
             <Reveal delay={index * 0.05} key={title as string}>
                 <article className="h-full rounded-2xl border border-slate-200 bg-white p-6">
-                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-teal-50 text-teal-700">
+                  <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
                     {createElement(Icon as React.ElementType, {
                     size: 21
                   })}
@@ -80,7 +80,7 @@ export function About() {
                   <h3 className="mt-5 text-lg font-extrabold tracking-[-.03em] text-slate-950">
                     {title as string}
                   </h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                  <p className="mt-2 text-sm leading-6 text-slate-700">
                     {text as string}
                   </p>
                 </article>
@@ -97,20 +97,20 @@ export function About() {
               src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1000&q=85"
               alt="Healthcare professional speaking with a patient"
               className="aspect-[4/3] w-full object-cover" />
-            
+          
           </div>
         </Reveal>
         <Reveal delay={0.08} className="flex flex-col justify-center">
           <SectionHeading
             eyebrow="Leadership"
-            title="Grounded in care. Built for accountability."
-            description="Our leadership team brings together expertise in mobility, operations, and community care. We stay close to the day-to-day work—and the people it serves." />
+            title="Grounded in care. Built for compliance."
+            description="Our leadership team brings together expertise in healthcare logistics, state and DOT compliance, and clinical transportation operations. We manage complex scheduling so patients can focus on recovery." />
           
           <div className="mt-7 flex items-center gap-4 rounded-2xl border border-slate-200 p-5">
-            <AwardIcon className="text-teal-700" size={28} />
-            <p className="text-sm leading-6 text-slate-600">
-              We are building a transportation experience that earns confidence
-              through consistent, thoughtful action.
+            <AwardIcon className="text-brand-blue" size={28} />
+            <p className="text-sm leading-6 text-slate-700">
+              We are building a clinical transportation experience that earns confidence
+              through compliance, safety protocols, and compassionate, on-time operations.
             </p>
           </div>
         </Reveal>
