@@ -37,7 +37,7 @@ export function About() {
         eyebrow="Our story"
         title="Care starts long before the appointment."
         description="Cathay Express Transportation exists to remove the uncertainty that too often surrounds medical transportation. We make movement feel more dependable, personal, and dignified."
-        image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=85" />
+        image="/ABOUT-US.jpg" />
       
       <section className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:px-8">
         <Reveal>
@@ -71,7 +71,7 @@ export function About() {
           <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {values.map(([title, text, Icon], index) =>
             <Reveal delay={index * 0.05} key={title as string}>
-                <article className="h-full rounded-2xl border border-slate-200 bg-white p-6">
+                <article className="ui-card p-6 h-full">
                   <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
                     {createElement(Icon as React.ElementType, {
                     size: 21

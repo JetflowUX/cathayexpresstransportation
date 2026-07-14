@@ -14,24 +14,28 @@ const fleetClasses = [
     title: 'Livery & Ambulatory Sedans',
     description: 'Clean, comfortable standard vehicles for ambulatory patients who walk independently but require reliable transportation. Ideal for routine dialysis, outpatient procedures, and follow-up medical visits.',
     icon: CarIcon,
+    image: '/fleet-4.jpg',
     features: ['Independent boarding', 'Climate-controlled cabins', 'Clean, smoke-free environments', 'Compassionate drivers']
   },
   {
     title: 'Wheelchair Accessible Vans',
     description: 'ADA-compliant paratransit vans equipped with commercial hydraulic lifts or low-angle ramps. Designed for passengers using manual or powered wheelchairs.',
     icon: ActivityIcon,
+    image: '/Big-Blue.png',
     features: ["Q'Straint 4-point tie-downs", 'Extra-wide side/rear entry', 'High-top ceilings for comfort', 'ADA safety certification']
   },
   {
     title: 'Stretcher Paratransit',
     description: 'Specially configured transport vans for patients who must remain in a lying position. Includes heavy-duty cot mounts, locking bars, and is supported by 2-Man Assist teams when requested.',
     icon: ShieldCheckIcon,
+    image: '/fleet-2.jpg',
     features: ['Sturdy locking mechanisms', 'Smooth air-ride suspension', '2-Man Assist team support', 'Facility-to-facility transfers']
   },
   {
     title: 'Special Needs School Buses',
     description: 'Dedicated school buses configured for children with developmental, physical, or medical challenges. Operated by qualified drivers accompanied by trained safety monitors.',
     icon: BusIcon,
+    image: '/fleet-1.jpg',
     features: ['Child safety restraints', 'Wheelchair lock areas', 'Special-needs sensitivity trained staff', 'Consistent daily routes']
   }
 ];
@@ -43,7 +47,7 @@ export function Fleet() {
         eyebrow="Our Vehicles"
         title="A diverse fleet configured for accessibility."
         description="From ambulatory sedans to paratransit wheelchair vans and stretcher transports, we operate fully compliant vehicles across NYC and New York State."
-        image="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=85"
+        image="/fleet-cover.jpg"
       >
         <ButtonLink to="/assessment" variant="light" className="mt-8">
           Request a ride assessment
@@ -62,26 +66,36 @@ export function Fleet() {
             const Icon = item.icon;
             return (
               <Reveal key={item.title} delay={index * 0.05}>
-                <article className="h-full rounded-2xl border border-slate-200 bg-white p-8 shadow-sm flex flex-col justify-between hover:border-brand-blue/30 transition duration-200">
-                  <div>
-                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
-                      <Icon size={24} />
-                    </span>
-                    <h3 className="mt-6 text-xl font-extrabold tracking-[-.035em] text-slate-950">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-700">
-                      {item.description}
-                    </p>
+                <article className="ui-card ui-card-hover overflow-hidden flex flex-col h-full">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 border-b border-slate-100">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition duration-300 hover:scale-105"
+                      loading="lazy"
+                    />
                   </div>
-                  <ul className="mt-6 border-t border-slate-100 pt-6 grid grid-cols-2 gap-x-4 gap-y-2.5">
-                    {item.features.map((feature) => (
-                      <li key={feature} className="flex items-center gap-2 text-xs text-slate-700 font-semibold">
-                        <CheckCircle2Icon className="text-brand-blue shrink-0" size={14} />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="p-8 flex flex-col justify-between flex-1">
+                    <div>
+                      <span className="grid h-12 w-12 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
+                        <Icon size={24} />
+                      </span>
+                      <h3 className="mt-6 text-xl font-extrabold tracking-[-.035em] text-slate-950">
+                        {item.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-700">
+                        {item.description}
+                      </p>
+                    </div>
+                    <ul className="mt-6 border-t border-slate-100 pt-6 grid grid-cols-2 gap-x-4 gap-y-2.5">
+                      {item.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-2 text-xs text-slate-700 font-semibold">
+                          <CheckCircle2Icon className="text-brand-blue shrink-0" size={14} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </article>
               </Reveal>
             );

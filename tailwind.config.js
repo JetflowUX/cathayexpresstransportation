@@ -8,7 +8,7 @@ export default {
       colors: {
         brand: {
           navy: '#022c54',
-          blue: '#117aca',
+          blue: '#0b5791',
           teal: '#0d9488',
         }
       }

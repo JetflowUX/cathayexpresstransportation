@@ -1,708 +1,591 @@
-import React, { useEffect, useState, lazy, createElement } from 'react';
+import React, { createElement, useEffect, useState } from "react";
 import {
   AmbulanceIcon,
+  ArrowRightIcon,
   BadgeCheckIcon,
+  BoxIcon,
   BusFrontIcon,
-  CalendarCheckIcon,
   CarFrontIcon,
+  CheckCircle2Icon,
   Clock3Icon,
   HeartHandshakeIcon,
   MapPinIcon,
-  PlaneIcon,
   ShieldCheckIcon,
   StarIcon,
   UsersRoundIcon,
-  UserRoundCheckIcon,
-  BoxIcon } from
-'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ButtonLink, FaqList, Reveal, SectionHeading } from '../components/Ui';
-const banner = [
-  [
-    'Medical transportation',
-    'Comfortable, coordinated rides for routine care.',
-    AmbulanceIcon,
-    'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1800&q=85',
-    'https://images.unsplash.com/photo-1584466991708-4b9a6c0f0b6b?auto=format&fit=crop&w=1000&q=85'
-  ],
-  [
-    'Public transit',
-    'Connected routes built around real community needs.',
-    BusFrontIcon,
-    'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1800&q=85',
-    'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1000&q=85'
-  ],
-  [
-    'Corporate transportation',
-    'Reliable mobility for your teams and guests.',
-    CarFrontIcon,
-    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1800&q=85',
-    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=85'
-  ],
-  [
-    'Senior transportation',
-    'Patient, helpful service that preserves independence.',
-    HeartHandshakeIcon,
-    'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1800&q=85',
-    'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?auto=format&fit=crop&w=1000&q=85'
-  ],
-  [
-    'Wheelchair transportation',
-    'Accessible vehicles and attentive door-through-door support.',
-    BoxIcon,
-    'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1800&q=85',
-    'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1000&q=85'
-  ]
+  type LucideIcon,
+} from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Button, ButtonLink, FaqList, Reveal, SectionHeading, AnimeScrollReveal, FloatingParticles } from "../components/Ui";
+
+type BannerItem = {
+  title: string;
+  subtitle: string;
+  icon: LucideIcon;
+  backdrop: string;
+  cardImage: string;
+};
+
+const bannerItems: BannerItem[] = [
+  {
+    title: "Medical transportation",
+    subtitle:
+      "Comfortable, coordinated rides for routine care and follow-up visits.",
+    icon: AmbulanceIcon,
+    backdrop:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1800&q=85",
+    cardImage: "/fleet-5.jpg",
+  },
+  {
+    title: "Public transit programs",
+    subtitle:
+      "Flexible routes built around real community and agency requirements.",
+    icon: BusFrontIcon,
+    backdrop:
+      "https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1800&q=85",
+    cardImage: "/fleet-1.jpg",
+  },
+  {
+    title: "Wheelchair transportation",
+    subtitle:
+      "Accessible vehicles and attentive support for every leg of the trip.",
+    icon: BoxIcon,
+    backdrop:
+      "https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=1800&q=85",
+    cardImage: "/Big-Blue.png",
+  },
+  {
+    title: "Corporate & facility mobility",
+    subtitle:
+      "Reliable transportation for teams, clinics, and partner organizations.",
+    icon: CarFrontIcon,
+    backdrop:
+      "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1800&q=85",
+    cardImage: "/nemt_shuttle_van.png",
+  },
 ];
 
-
-const services = [
-[
-'Medical transportation',
-'Reliable trips to appointments, treatment, and follow-up care.',
-AmbulanceIcon],
-
-[
-'Wheelchair transportation',
-'Purpose-built accessibility and trained support for every journey.',
-BoxIcon],
-
-[
-'Public transit',
-'Flexible community mobility connecting people to essential destinations.',
-BusFrontIcon],
-
-[
-'Airport transportation',
-'A calm, coordinated start or finish to your trip.',
-PlaneIcon],
-
-[
-'Corporate transportation',
-'Professional service for teams, clients, and scheduled events.',
-CarFrontIcon],
-
-[
-'Special needs transportation',
-'Personalized travel support for individual mobility needs.',
-UsersRoundIcon]];
-
+const serviceCards = [
+  {
+    title: "Ambulatory & Livery",
+    copy: "Low-stress, punctual transportation for routine visits and outpatient care.",
+    icon: HeartHandshakeIcon,
+    to: "/services#ambulatory",
+  },
+  {
+    title: "Wheelchair Trips",
+    copy: "Lift-equipped vehicles with trained drivers and proper securement support.",
+    icon: BoxIcon,
+    to: "/services#wheelchair",
+  },
+  {
+    title: "Stretcher Transport",
+    copy: "Professional recumbent transport for discharge and inter-facility movement.",
+    icon: AmbulanceIcon,
+    to: "/services#stretcher",
+  },
+  {
+    title: "Special Needs School",
+    copy: "Consistent and supportive transport for students with specialized needs.",
+    icon: UsersRoundIcon,
+    to: "/services#school-bus",
+  },
+  {
+    title: "Paratransit",
+    copy: "Trusted ADA-conscious travel coordinated with Medicaid and local programs.",
+    icon: BusFrontIcon,
+    to: "/services#paratransit",
+  },
+  {
+    title: "Public Transit Programs",
+    copy: "Community-focused route programs built with agency and county requirements.",
+    icon: MapPinIcon,
+    to: "/public-transit",
+  },
+];
 
 const faqs = [
-{
-  question: 'How far ahead should I schedule?',
-  answer:
-  'Whenever possible, please make non-urgent requests at least 48 hours ahead. Our dispatch team will always try to accommodate short-notice needs.'
-},
-{
-  question: 'Can a companion travel with me?',
-  answer:
-  'Yes. A companion may join you depending on vehicle capacity and the service requested.'
-},
-{
-  question: 'Do you provide emergency transportation?',
-  answer:
-  'No. Cathay Express Transportation is not an emergency medical provider. Please call 911 for immediate medical emergencies.'
-}];
+  {
+    question: "How far ahead should I schedule?",
+    answer:
+      "Whenever possible, please request non-urgent rides at least 48 hours in advance. Our dispatch team always tries to accommodate short-notice needs.",
+  },
+  {
+    question: "Can a companion travel with me?",
+    answer:
+      "Yes. A companion can often join based on vehicle capacity and the service type requested.",
+  },
+  {
+    question: "Do you provide emergency transportation?",
+    answer:
+      "No. Cathay Express Transportation provides non-emergency transportation only. Please call 911 for immediate emergencies.",
+  },
+];
 
 function MedicaidBrokerHelper() {
-  const [selectedCounty, setSelectedCounty] = useState('nyc');
+  const [selectedCounty, setSelectedCounty] = useState("nyc");
 
   const counties = {
     nyc: {
-      name: 'NYC / Queens / Brooklyn / Staten Island',
-      broker: 'MAS (Medical Answering Services)',
-      phone: '1-800-850-5340',
-      web: 'www.medanswering.com',
-      note: 'Instruct MAS to coordinate paratransit with Cathay Express Transportation (Flushing Base ID: N18645).'
+      name: "NYC / Queens / Brooklyn / Staten Island",
+      broker: "MAS (Medical Answering Services)",
+      phone: "1-800-850-5340",
+      web: "www.medanswering.com",
+      note: "Ask MAS to assign Cathay Express Transportation (Flushing Base ID: N18645).",
     },
     monroe: {
-      name: 'Monroe County (Rochester / Upstate)',
-      broker: 'MAS (Medical Answering Services)',
-      phone: '1-866-932-7740',
-      web: 'www.medanswering.com',
-      note: 'Instruct MAS to coordinate paratransit with Cathay Express Transportation (Rochester Base ID: N18645).'
+      name: "Monroe County (Rochester / Upstate)",
+      broker: "MAS (Medical Answering Services)",
+      phone: "1-866-932-7740",
+      web: "www.medanswering.com",
+      note: "Ask MAS to assign Cathay Express Transportation (Rochester Base ID: N18645).",
     },
     chenango: {
-      name: 'Chenango County (Norwich / Upstate)',
-      broker: 'MAS (Medical Answering Services)',
-      phone: '1-855-360-3545',
-      web: 'www.medanswering.com',
-      note: 'Instruct MAS to coordinate paratransit with Cathay Express Transportation (Norwich Base ID: N18645).'
+      name: "Chenango County (Norwich / Upstate)",
+      broker: "MAS (Medical Answering Services)",
+      phone: "1-855-360-3545",
+      web: "www.medanswering.com",
+      note: "Ask MAS to assign Cathay Express Transportation (Norwich Base ID: N18645).",
     },
     dutchess: {
-      name: 'Dutchess County (Poughkeepsie / Hudson Valley)',
-      broker: 'MAS (Medical Answering Services)',
-      phone: '1-855-360-3543',
-      web: 'www.medanswering.com',
-      note: 'Instruct MAS to coordinate paratransit with Cathay Express Transportation (Poughkeepsie Base ID: N18645).'
-    }
+      name: "Dutchess County (Poughkeepsie / Hudson Valley)",
+      broker: "MAS (Medical Answering Services)",
+      phone: "1-855-360-3543",
+      web: "www.medanswering.com",
+      note: "Ask MAS to assign Cathay Express Transportation (Poughkeepsie Base ID: N18645).",
+    },
   };
 
   const current = counties[selectedCounty as keyof typeof counties];
 
   return (
-    <div className="mt-6">
+    <div className="mt-5">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-        {Object.entries(counties).map(([id, item]) => (
-          <button
+        {Object.entries(counties).map(([id]) => (
+          <Button
             key={id}
             type="button"
+            variant={selectedCounty === id ? "primary" : "secondary"}
             onClick={() => setSelectedCounty(id)}
-            className={`rounded-xl px-3 py-2.5 text-center text-xs font-bold transition duration-200 ${
-              selectedCounty === id
-                ? 'bg-brand-blue text-white shadow-sm'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200/70'
-            }`}
+            className="!py-2 !px-3 text-xs w-full"
           >
             {id.toUpperCase()}
-          </button>
+          </Button>
         ))}
       </div>
 
-      <div className="mt-6 rounded-xl border border-slate-100 bg-slate-50/50 p-5 space-y-4">
-        <div>
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
-            Regional Base Coverage
-          </span>
-          <span className="text-sm font-bold text-slate-950 mt-1 block">
-            {current.name}
-          </span>
-        </div>
-        
-        <div className="grid gap-4 sm:grid-cols-2">
+      <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+        <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+          County Coverage
+        </p>
+        <p className="mt-1 text-sm font-bold text-slate-900">{current.name}</p>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
-              Authorized Broker
-            </span>
-            <span className="text-sm font-bold text-slate-800 mt-1 block">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+              Broker
+            </p>
+            <p className="mt-1 text-sm font-semibold text-slate-800">
               {current.broker}
-            </span>
+            </p>
           </div>
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
-              Broker Phone Number
-            </span>
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-slate-500">
+              Phone
+            </p>
             <a
-              href={`tel:${current.phone.replace(/[^0-9]/g, '')}`}
-              className="text-sm font-bold text-brand-blue hover:underline mt-1 block"
+              href={`tel:${current.phone.replace(/[^0-9]/g, "")}`}
+              className="mt-1 block text-sm font-semibold text-brand-blue hover:underline"
             >
               {current.phone}
             </a>
           </div>
         </div>
 
-        <div>
-          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
-            Online Booking Portal
-          </span>
-          <a
-            href={`https://${current.web}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-semibold text-brand-blue hover:underline mt-1 block"
-          >
-            {current.web} →
-          </a>
-        </div>
+        <a
+          href={`https://${current.web}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue hover:underline"
+        >
+          {current.web}
+          <ArrowRightIcon size={14} />
+        </a>
 
-        <div className="border-t border-slate-200/60 pt-4 text-xs leading-5 text-slate-600">
-          <strong className="text-slate-950 font-bold block mb-1">Preferred Provider Instruction:</strong>
+        <p className="mt-4 border-t border-slate-200 pt-4 text-xs leading-5 text-slate-600">
           {current.note}
-        </div>
+        </p>
       </div>
     </div>
   );
 }
 
 export function Home() {
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const timer = window.setInterval(
-      () => setActive((current) => (current + 1) % banner.length),
-      4200
-    );
-    return () => window.clearInterval(timer);
-  }, []);
   return (
     <>
-      <section className="relative overflow-hidden bg-brand-navy pt-[76px]">
-        <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
-            <motion.img
-              key={active}
-              src={banner[active][3] as string}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.3 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.8 }}
-              alt=""
-              className="h-full w-full object-cover"
-            />
-          </AnimatePresence>
-        </div>
-        <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:grid lg:grid-cols-2 lg:gap-10 lg:px-8 lg:py-32">
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 20
-            }}
-            animate={{
-              opacity: 1,
-              y: 0
-            }}
-            transition={{
-              duration: 0.6
-            }}
-            className="flex flex-col justify-center">
-            
+      <section 
+        className="relative overflow-hidden bg-brand-navy bg-cover bg-center"
+        style={{ backgroundImage: "url('/fleet-cover.jpg')" }}
+      >
+        {/* Dark high-contrast overlay to guarantee text legibility */}
+        <div className="absolute inset-0 bg-brand-navy/85 lg:bg-gradient-to-r lg:from-brand-navy/95 lg:via-brand-navy/85 lg:to-brand-navy/30" />
+        
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]" />
 
-            <motion.h1
-              initial={{
-                opacity: 0,
-                y: 18
-              }}
-              animate={{
-                opacity: 1,
-                y: 0
-              }}
-              transition={{
-                duration: 0.55,
-                delay: 0.08
-              }}
-              className="mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] tracking-[-.05em] text-white sm:text-5xl lg:text-6xl">
-              
-              Reliable Non-Emergency Medical Transportation You Can Trust
-            </motion.h1>
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: 18
-              }}
-              animate={{
-                opacity: 1,
-                y: 0
-              }}
-              transition={{
-                duration: 0.55,
-                delay: 0.16
-              }}
-              className="mt-6 max-w-xl text-lg leading-8 text-slate-200">
-              
-              Safe, timely, and professional ambulatory, wheelchair, and stretcher
-              mobility solutions across New York City, Long Island, and Upstate New York.
-            </motion.p>
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: 18
-              }}
-              animate={{
-                opacity: 1,
-                y: 0
-              }}
-              transition={{
-                duration: 0.55,
-                delay: 0.24
-              }}
-              className="mt-8 flex flex-wrap gap-3">
-              
-              <ButtonLink to="/assessment">Book Transportation</ButtonLink>
-              <ButtonLink to="/contact" variant="light">
-                Contact Us
-              </ButtonLink>
-            </motion.div>
-            <div className="mt-12 flex flex-wrap gap-x-7 gap-y-4 text-sm font-semibold text-slate-200">
-              <span className="flex items-center gap-2">
-                <ShieldCheckIcon size={18} className="text-brand-blue" />
-                <span className="text-xs font-bold">100% NYS DOT Compliant</span>
-              </span>
-              <div className="flex items-center gap-2 text-slate-200">
-                <Clock3Icon size={18} className="text-brand-blue" />
-                24/7 ride support
-              </div>
-            </div>
-          </motion.div>
+        {/* Anime.js Floating Particles */}
+        <FloatingParticles />
+
+        <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:grid lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:gap-10 lg:px-8 lg:py-24">
           <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.96
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 0.15
-            }}
-            className="relative mx-auto w-full max-w-xl">
-            
-            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-2 shadow-2xl">
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={active}
-                  src={banner[active][4] as string}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.4 }}
-                  alt={banner[active][0] as string}
-                  className="aspect-[4/4.2] w-full rounded-[1.55rem] object-cover"
-                />
-              </AnimatePresence>
-            </div>
-            <div className="absolute -bottom-5 -left-2 rounded-2xl bg-white p-4 shadow-xl sm:-left-7">
-              <p className="text-2xl font-extrabold tracking-[-.05em] text-slate-950">
-                4.9{' '}
-                <StarIcon
-                  className="inline fill-amber-400 text-amber-400"
-                  size={19} />
-                
-              </p>
-              <p className="mt-1 text-xs font-semibold text-slate-700">
-                from rider feedback
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-5 sm:px-8 lg:px-8">
-          <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-            <p className="text-xs font-extrabold uppercase tracking-[.15em] text-slate-700">
-              NY Operational Services
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55 }}
+          >
+            <h1 className="mt-5 max-w-2xl text-4xl font-extrabold leading-[1.05] tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
+              <span className="text-sky-300">#1</span> NYC & New York State’s NEMT & Special Needs Transportation Provider
+            </h1>
+
+            <p className="mt-6 max-w-xl text-base leading-7 text-slate-200 sm:text-lg sm:leading-8">
+              Reliable, professional, and compliant non-emergency medical and special-needs student transportation serving NYC, Long Island, Westchester, and Upstate New York.
             </p>
-            <div className="relative min-h-[28px] overflow-hidden">
-              <motion.div
-                key={banner[active][0]}
-                initial={{
-                  opacity: 0,
-                  y: 16
-                }}
-                animate={{
-                  opacity: 1,
-                  y: 0
-                }}
-                exit={{
-                  opacity: 0
-                }}
-                className="flex items-center gap-3 text-sm font-bold text-slate-900">
-                
-                {createElement(banner[active][2], {
-                  size: 19,
-                  className: 'text-brand-blue'
-                })}
-                <span>{banner[active][0]}</span>
-                <span className="hidden font-normal text-slate-700 sm:inline">
-                  — {banner[active][1]}
-                </span>
-              </motion.div>
+
+            {/* Original Trust Badges - Snug and Centered */}
+            <div className="mt-6 mx-auto lg:mx-0 w-fit flex items-center justify-center gap-5 bg-white/5 p-2.5 px-4 rounded-xl border border-white/10 backdrop-blur-sm">
+              <a
+                href="https://sbsconnect.nyc.gov/vendor-profile/?guid=989c57ca-d9a0-423e-89c1-dbb0e06a0a75"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:scale-105 duration-200 h-9 flex items-center shrink-0"
+              >
+                <img src="/sbs-logo.png" alt="NYC SBS certified minority vendor" className="h-9 w-auto object-contain" />
+              </a>
+              <span className="h-6 w-px bg-white/10 shrink-0" />
+              <a
+                href="https://www.bbb.org/us/ny/flushing/profile/transportation/cathay-express-transportation-inc-0121-157453"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:scale-105 duration-200 h-9 flex items-center shrink-0"
+              >
+                <img src="/bbb-logo.png" alt="BBB Accredited Business" className="h-9 w-auto object-contain" />
+              </a>
+              <span className="h-6 w-px bg-white/10 shrink-0" />
+              <a
+                href="https://www.topratedlocal.com/cathay-express-transportation-reviews?utm_source=badge&utm_medium=organic"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:scale-105 duration-200 h-9 flex items-center shrink-0"
+              >
+                <img src="/top-rated-logo.png" alt="Top Rated Local" className="h-9 w-auto object-contain" />
+              </a>
             </div>
-            <div className="flex gap-1.5">
-              {banner.map((item, i) =>
-              <button
-                key={item[0]}
-                aria-label={`Show ${item[0]}`}
-                onClick={() => setActive(i)}
-                className={`h-1.5 rounded-full transition-all ${active === i ? 'w-6 bg-brand-blue' : 'w-1.5 bg-slate-300'}`} />
 
-              )}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink
+                to="/transportation-assessment"
+                className="!bg-[#17B49D] hover:!bg-[#00806D] !border-[#17B49D] hover:!border-[#00806D] !text-white transition duration-200"
+              >
+                Request a Quote
+              </ButtonLink>
+              <a
+                href="tel:2122615555"
+                className="ui-button ui-button-ghost"
+              >
+                Call dispatch: (212) 261-5555
+              </a>
             </div>
-          </div>
-        </div>
-      </section>
-      <section className="bg-slate-50 py-12">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-4 px-5 sm:grid-cols-3 lg:grid-cols-5 lg:px-8">
-          {[
-          ['18+', 'years moving communities'],
-          ['250k+', 'rides coordinated'],
-          ['24/7', 'live ride support'],
-          ['100%', 'licensed & insured'],
-          ['4.9/5', 'rider satisfaction']].
-          map(([number, label], index) =>
-          <Reveal
-            key={label}
-            className={`flex flex-col justify-between rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-[0_4px_20px_rgba(15,23,42,0.02)] backdrop-blur-sm transition duration-200 hover:border-brand-blue/30 hover:bg-white hover:shadow-md ${index === 4 ? 'col-span-2 sm:col-span-1' : ''}`}>
-            
-              <div>
-                <p className="text-3xl font-extrabold tracking-[-.05em] text-brand-blue">
-                  {number}
-                </p>
-                <p className="mt-1.5 text-xs font-semibold leading-5 text-slate-700">{label}</p>
-              </div>
-            </Reveal>
-          )}
-        </div>
-      </section>
 
-      <section className="bg-slate-50 border-t border-b border-slate-200/60 py-20">
-        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] items-start">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Medicaid Coordinates"
-                title="How to request Cathay Express through your Medicaid broker."
-                description="In New York State, all non-emergency medical transportation (NEMT) must be authorized and scheduled through regional Medicaid brokers. To ride with us, you simply request Cathay Express as your preferred provider."
-              />
-              <div className="mt-6 space-y-4 text-sm text-slate-700 leading-relaxed">
-                <p>
-                  1. Contact your regional Medicaid broker (MAS or ModivCare) at least 3 business days before your appointment.
-                </p>
-                <p>
-                  2. Provide the coordinator with your appointment details, medical facility address, and vehicle requirements (wheelchair, stretcher, or ambulatory).
-                </p>
-                <p>
-                  3. <strong>Crucial Step:</strong> Explicitly ask the broker to assign <strong>Cathay Express Transportation</strong> as your preferred provider.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-                <h3 className="text-lg font-extrabold tracking-[-0.03em] text-slate-950">
-                  Select Your County to View Broker Details
-                </h3>
-                <p className="mt-2 text-xs leading-5 text-slate-600">
-                  Find the exact booking number and website for your regional Medicaid broker coordinator.
-                </p>
-                
-                <MedicaidBrokerHelper />
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-8">
-        <SectionHeading
-          eyebrow="Every kind of journey"
-          title="Transportation designed around people, not schedules."
-          description="Our teams coordinate the small details so every traveler feels expected, supported, and ready to go." />
-        
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {services.map(([title, copy, Icon], index) =>
-          <Reveal delay={index * 0.04} key={title}>
-              <article className="group flex min-h-[230px] flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_8px_30px_rgb(15,23,42,0.04)] transition duration-200 hover:-translate-y-1 hover:border-brand-blue/30 hover:shadow-lg">
-                <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-blue/10 text-brand-blue">
-                  <Icon size={22} />
-                </span>
-                <h3 className="mt-5 text-lg font-extrabold tracking-[-.03em] text-slate-950">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{copy}</p>
-                <Link
-                to="/services"
-                className="mt-auto pt-5 text-sm font-bold text-blue-700 hover:text-brand-blue">
-                
-                  Explore service <span aria-hidden="true">→</span>
-                </Link>
-              </article>
-            </Reveal>
-          )}
-        </div>
-      </section>
-      <section className="bg-brand-navy py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:px-8">
-          <Reveal>
-            <div className="overflow-hidden rounded-[2rem]">
-              <img
-                loading="lazy"
-                src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1100&q=85"
-                alt="Caring driver assisting an older passenger"
-                className="aspect-[4/3] h-full w-full object-cover" />
-              
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-xs font-bold uppercase tracking-wider text-slate-300">
+              <span className="inline-flex items-center gap-2">
+                <ShieldCheckIcon size={15} className="text-sky-300" />
+                NYS DOT compliant
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Clock3Icon size={15} className="text-sky-300" />
+                24/7 dispatch support
+              </span>
             </div>
-          </Reveal>
-          <Reveal className="lg:py-4">
-            <SectionHeading
-              light
-              eyebrow="Why Choose Us"
-              title="Setting the standard for passenger safety & trust."
-              description="We align with Medicaid, OPWDD, and NYS DOT standards to provide unparalleled service quality across NY." />
-            
-            <div className="mt-8 grid grid-cols-1 gap-x-7 gap-y-6 sm:grid-cols-2">
-              {[
-              [BadgeCheckIcon, 'Reliable'],
-              [ShieldCheckIcon, 'Safe'],
-              [UserRoundCheckIcon, 'Professional Drivers'],
-              [Clock3Icon, 'On-Time Service'],
-              [HeartHandshakeIcon, 'Compassionate Care'],
-              [MapPinIcon, 'GPS Tracked Vehicles'],
-              [BadgeCheckIcon, 'Fully Insured'],
-              [UsersRoundIcon, 'Customer Support']].
-              map(([Icon, label]) =>
+          </motion.div>
+
+          {/* Right Column: Left empty to clearly display the background fleet-cover lineup */}
+          <div className="hidden lg:block h-full min-h-[380px]" />
+        </div>
+      </section>
+
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-8">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["18+", "years serving NY communities"],
+              ["250k+", "rides coordinated"],
+              ["4.9/5", "average rider satisfaction"],
+              ["24/7", "dispatch and support"],
+            ].map(([value, label]) => (
               <div
-                key={label as string}
-                className="flex gap-3 text-sm font-bold text-white">
-                
-                  {createElement(Icon as React.ElementType, {
-                  size: 20,
-                  className: 'shrink-0 text-brand-blue'
-                })}
-                  {label as string}
-                </div>
-              )}
+                key={label}
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
+              >
+                <p className="text-2xl font-extrabold tracking-[-0.04em] text-brand-navy">
+                  {value}
+                </p>
+                <p className="mt-1 text-xs font-semibold uppercase tracking-[0.09em] text-slate-600">
+                  {label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-8">
+        <SectionHeading
+          eyebrow="Service programs"
+          title="Transportation designed around people, not just routes."
+          description="From clinical visits to community mobility, we coordinate transportation experiences that feel clear, safe, and dependable."
+        />
+
+        <AnimeScrollReveal
+          selector=".service-card"
+          delay={50}
+          className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3"
+        >
+          {serviceCards.map((item) => (
+            <article key={item.title} className="service-card ui-card ui-card-hover p-6 h-full">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+                <item.icon size={20} />
+              </span>
+              <h3 className="mt-5 text-lg font-extrabold tracking-[-0.03em] text-slate-950">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-700">
+                {item.copy}
+              </p>
+              <Link
+                to={item.to}
+                className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-blue hover:underline"
+              >
+                Learn more
+                <ArrowRightIcon size={14} />
+              </Link>
+            </article>
+          ))}
+        </AnimeScrollReveal>
+      </section>
+
+      <section className="bg-slate-50 py-20">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_1.1fr] lg:px-8">
+          <Reveal>
+            <SectionHeading
+              eyebrow="Broker coordination"
+              title="Request Cathay Express through your Medicaid broker."
+              description="In New York State, NEMT rides are coordinated through regional brokers. We help riders and coordinators request the right vehicle and provider assignment."
+            />
+
+            <div className="mt-8 space-y-3 text-sm leading-6 text-slate-700">
+              <p>
+                1. Contact your regional broker and share your appointment
+                details.
+              </p>
+              <p>
+                2. Confirm mobility needs: ambulatory, wheelchair, or stretcher.
+              </p>
+              <p>
+                3. Ask specifically for Cathay Express Transportation as your
+                preferred provider.
+              </p>
             </div>
-            <ButtonLink to="/about" variant="light" className="mt-10">
-              About Cathay Express
-            </ButtonLink>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <h3 className="text-lg font-extrabold tracking-[-0.03em] text-slate-950">
+                Find your county broker details
+              </h3>
+              <p className="mt-2 text-sm text-slate-600">
+                Use this quick selector to get the right booking phone and
+                coordinator details.
+              </p>
+              <MedicaidBrokerHelper />
+            </div>
           </Reveal>
         </div>
       </section>
+
       <section className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-8">
         <SectionHeading
-          eyebrow="Simple from the start"
-          title="A ride experience with fewer unknowns."
-          align="center" />
-        
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          eyebrow="How it works"
+          title="A ride process that feels clear from start to finish."
+          align="center"
+        />
+
+        <AnimeScrollReveal
+          selector=".step-card"
+          delay={50}
+          className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {[
-          [
-          '01',
-          'Book',
-          'Tell us where, when, and what support will make your trip easier.'],
-
-          [
-          '02',
-          'Confirm',
-          'A mobility coordinator confirms the plan and answers questions.'],
-
-          [
-          '03',
-          'Pickup',
-          'Your trained driver arrives prepared, with time to help.'],
-
-          [
-          '04',
-          'Safe arrival',
-          'We get you there with care, then keep you informed.']].
-
-          map(([number, title, copy], index) =>
-          <Reveal key={title} delay={index * 0.05}>
-              <div className="relative rounded-2xl bg-slate-50 p-6">
-                <span className="text-xs font-extrabold tracking-[.15em] text-brand-blue">
-                  {number}
-                </span>
-                <h3 className="mt-8 text-lg font-extrabold tracking-[-.03em] text-slate-950">
-                  {title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{copy}</p>
-              </div>
-            </Reveal>
-          )}
-        </div>
+            [
+              "01",
+              "Submit request",
+              "Share appointment details and transportation needs.",
+            ],
+            [
+              "02",
+              "Plan confirmation",
+              "A coordinator confirms timing, pickup, and support level.",
+            ],
+            [
+              "03",
+              "Professional pickup",
+              "Your trained driver arrives prepared and on schedule.",
+            ],
+            [
+              "04",
+              "Safe arrival",
+              "You reach your destination with live dispatch visibility.",
+            ],
+          ].map(([step, title, copy]) => (
+            <article key={title} className="step-card ui-card p-6 h-full">
+              <p className="text-xs font-extrabold tracking-[0.16em] text-brand-blue">
+                {step}
+              </p>
+              <h3 className="mt-5 text-lg font-extrabold tracking-[-0.03em] text-slate-950">
+                {title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-slate-700">{copy}</p>
+            </article>
+          ))}
+        </AnimeScrollReveal>
       </section>
-      <section className="bg-brand-light py-20">
+
+      <section className="bg-brand-navy py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-8">
           <SectionHeading
-            eyebrow="What riders remember"
-            title="More than a ride. A source of reassurance."
-            align="center" />
-          
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            light
+            eyebrow="Trusted outcomes"
+            title="Families, facilities, and riders count on consistency."
+            align="center"
+          />
+
+          <AnimeScrollReveal
+            selector=".review-card"
+            delay={50}
+            className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+          >
             {[
-            [
-            '“My driver knew exactly how to make the trip comfortable. I arrived relaxed and on time.”',
-            'Marisol R.',
-            'Rider since 2022'],
-
-            [
-            '“The communication made all the difference. I knew my father was in good hands.”',
-            'David L.',
-            'Family member'],
-
-            [
-            '“Northstar has become a dependable extension of our care coordination team.”',
-            'Kara M.',
-            'Clinic coordinator']].
-
-            map(([quote, name, role], index) =>
-            <Reveal delay={index * 0.06} key={name} className={index === 2 ? 'md:col-span-2 lg:col-span-1' : ''}>
-                <figure className="rounded-2xl bg-white p-7 shadow-sm h-full flex flex-col justify-between">
-                  <div>
-                    <div className="flex gap-1 text-amber-400">
-                      {Array.from({
-                      length: 5
-                    }).map((_, i) =>
-                    <StarIcon key={i} size={15} fill="currentColor" />
-                    )}
-                    </div>
-                    <blockquote className="mt-5 text-lg font-bold leading-7 tracking-[-.02em] text-slate-800">
-                      {quote}
-                    </blockquote>
+              [
+                "My driver was respectful, patient, and exactly on time. The whole trip felt safe and smooth.",
+                "Marisol R.",
+                "Rider since 2022",
+              ],
+              [
+                "Communication was excellent from booking to drop-off. We always felt informed.",
+                "David L.",
+                "Family member",
+              ],
+              [
+                "Cathay Express has become a dependable extension of our care coordination process.",
+                "Kara M.",
+                "Clinic coordinator",
+              ],
+            ].map(([quote, name, role]) => (
+              <figure key={name} className="review-card flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-white/10 p-6 backdrop-blur-sm">
+                <div>
+                  <div className="flex gap-1 text-amber-300">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <StarIcon key={i} size={14} fill="currentColor" />
+                    ))}
                   </div>
-                  <figcaption className="mt-7 text-sm">
-                    <span className="font-bold text-slate-950">{name}</span>
-                    <span className="block mt-1 text-slate-600">{role}</span>
-                  </figcaption>
-                </figure>
-              </Reveal>
-            )}
-          </div>
+                  <blockquote className="mt-4 text-base font-semibold leading-7 text-white">
+                    “{quote}”
+                  </blockquote>
+                </div>
+                <figcaption className="mt-6 text-sm">
+                  <p className="font-bold text-white">{name}</p>
+                  <p className="mt-0.5 text-xs text-sky-200">{role}</p>
+                </figcaption>
+              </figure>
+            ))}
+          </AnimeScrollReveal>
         </div>
       </section>
+
       <section className="mx-auto grid max-w-7xl gap-10 px-5 py-20 sm:px-8 lg:grid-cols-2 lg:px-8">
         <Reveal>
           <SectionHeading
             eyebrow="Helpful answers"
             title="Questions before your first ride?"
-            description="Our coordinators are always happy to walk you through the details." />
-          
+            description="Our team can walk you through scheduling, billing categories, and support requirements."
+          />
+
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5 text-sm leading-6 text-slate-700">
+            <p className="font-bold text-slate-900">
+              Need immediate scheduling support?
+            </p>
+            <a
+              href="tel:2122615555"
+              className="mt-2 inline-flex items-center gap-2 text-brand-blue hover:underline"
+            >
+              <PhoneBadge />
+              Call dispatch: (212) 261-5555
+            </a>
+          </div>
         </Reveal>
+
         <Reveal delay={0.08}>
           <FaqList items={faqs} />
         </Reveal>
       </section>
-      <section className="bg-slate-50 py-16 border-t border-b border-slate-200 overflow-hidden">
+
+      <section className="overflow-hidden border-y border-slate-200 bg-slate-50 py-14">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-8">
           <p className="text-center text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-500">
-            We Proudly Serve & Connect With NY Medicaid Brokers & Insurance Providers
+            Trusted by NY Medicaid brokers and healthcare partners
           </p>
           <div className="relative mt-8 overflow-hidden [mask-image:_linear-gradient(to_right,_transparent_0,_black_128px,_black_calc(100%_-_128px),_transparent_100%)]">
-            <div className="animate-marquee-slow flex gap-20 items-center">
+            <div className="animate-marquee-slow flex items-center gap-20">
               {[
-                '/partners/1.png',
-                '/partners/2.png',
-                '/partners/3.png',
-                '/partners/4.png',
-                '/partners/5.png',
-                '/partners/6.png',
-                '/partners/7.png',
-                '/partners/8.png',
-                '/partners/9.png',
-                '/partners/10.png',
-                '/partners/11.png',
-                '/partners/12.png',
-                '/partners/13.png',
-                '/partners/image-12.png',
-                '/partners/image-15.png',
-                '/partners/NYCM_Insurance_Logo.svg_.png',
-                '/partners/TNJH-Logo2019-footer-e1562697695240.png',
-                '/partners/1.png',
-                '/partners/2.png',
-                '/partners/3.png',
-                '/partners/4.png',
-                '/partners/5.png',
-                '/partners/6.png',
-                '/partners/7.png',
-                '/partners/8.png',
-                '/partners/9.png',
-                '/partners/10.png',
-                '/partners/11.png',
-                '/partners/12.png',
-                '/partners/13.png',
-                '/partners/image-12.png',
-                '/partners/image-15.png',
-                '/partners/NYCM_Insurance_Logo.svg_.png',
-                '/partners/TNJH-Logo2019-footer-e1562697695240.png'
+                "/partners/1.png",
+                "/partners/2.png",
+                "/partners/3.png",
+                "/partners/4.png",
+                "/partners/5.png",
+                "/partners/6.png",
+                "/partners/7.png",
+                "/partners/8.png",
+                "/partners/9.png",
+                "/partners/10.png",
+                "/partners/11.png",
+                "/partners/12.png",
+                "/partners/13.png",
+                "/partners/image-12.png",
+                "/partners/image-15.png",
+                "/partners/NYCM_Insurance_Logo.svg_.png",
+                "/partners/TNJH-Logo2019-footer-e1562697695240.png",
+                "/partners/1.png",
+                "/partners/2.png",
+                "/partners/3.png",
+                "/partners/4.png",
+                "/partners/5.png",
+                "/partners/6.png",
+                "/partners/7.png",
+                "/partners/8.png",
+                "/partners/9.png",
+                "/partners/10.png",
+                "/partners/11.png",
+                "/partners/12.png",
+                "/partners/13.png",
+                "/partners/image-12.png",
+                "/partners/image-15.png",
+                "/partners/NYCM_Insurance_Logo.svg_.png",
+                "/partners/TNJH-Logo2019-footer-e1562697695240.png",
               ].map((logo, index) => (
                 <img
                   key={index}
                   src={logo}
                   alt="Partner logo"
-                  className="h-14 w-auto object-contain opacity-95 hover:opacity-100 transition-opacity max-w-[180px]"
+                  className="h-12 w-auto max-w-[170px] object-contain opacity-90 transition-opacity hover:opacity-100"
                 />
               ))}
             </div>
@@ -710,29 +593,34 @@ export function Home() {
         </div>
       </section>
 
-      <section className="mx-5 mb-5 overflow-hidden rounded-[2rem] bg-blue-800 sm:mx-8 xl:mx-auto xl:mb-8 xl:max-w-7xl">
-        <div className="grid items-center gap-8 px-7 py-12 sm:px-12 lg:grid-cols-[1fr_auto] lg:py-16">
+      <section className="mx-5 mb-5 overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#022c54_0%,#0b4d83_50%,#117aca_100%)] sm:mx-8 xl:mx-auto xl:mb-8 xl:max-w-7xl">
+        <div className="grid items-center gap-8 px-7 py-12 sm:px-12 lg:grid-cols-[1fr_auto] lg:py-14">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[.17em] text-blue-200">
-              Book your transportation today
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-blue-100">
+              Ready to book with confidence?
             </p>
-            <h2 className="mt-4 max-w-2xl text-3xl font-extrabold tracking-[-.05em] text-white sm:text-4xl">
-              Reliable non-emergency medical rides across NY.
+            <h2 className="mt-4 max-w-2xl text-3xl font-extrabold tracking-[-0.05em] text-white sm:text-4xl">
+              Start your transportation assessment and we will guide the rest.
             </h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            <ButtonLink to="/assessment" variant="light">
-              Book transportation
+            <ButtonLink to="/transportation-assessment" variant="light">
+              Start assessment
             </ButtonLink>
-            <ButtonLink
-              to="/contact"
-              variant="ghost">
-              
-              Contact us
+            <ButtonLink to="/contact" variant="ghost">
+              Talk to our team
             </ButtonLink>
           </div>
         </div>
       </section>
-    </>);
+    </>
+  );
+}
 
+function PhoneBadge() {
+  return (
+    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-brand-blue/15 text-brand-blue">
+      <CheckCircle2Icon size={13} />
+    </span>
+  );
 }
